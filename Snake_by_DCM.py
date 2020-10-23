@@ -5,21 +5,21 @@
 import turtle
 import random
 
-#head orientation
+# head orientation
 h = [0]
 
-#score
+# score
 a = [0]
 b = [0]
 
-#food coord
-fcoord = [0,0,0]
+# food coord
+fcoord = [0, 0, 0]
 
-#position
+# position
 pos = []
 
 
-def home(x,y):
+def home(x, y):  # taking x and y only because wew are making 2d snake game
     x = 0
     y = 0
     a[0] = 0
@@ -31,11 +31,12 @@ def home(x,y):
     turtle.clear()
     turtle.pu()
     turtle.color("black")
-    turtle.goto(0,0)
+    turtle.goto(0, 0)
     turtle.write("Play")
     turtle.title("Snake")
     turtle.onscreenclick(start)
     turtle.mainloop()
+
 
 def level_1():
     turtle.clear()
@@ -43,16 +44,17 @@ def level_1():
     turtle.speed(0)
     turtle.pensize(20)
     turtle.color("grey")
-    turtle.goto(-220,220)
+    turtle.goto(-220, 220)
     turtle.pd()
-    turtle.goto(220,220)
-    turtle.goto(220,-220)
-    turtle.goto(-220,-220)
-    turtle.goto(-220,220)
+    turtle.goto(220, 220)
+    turtle.goto(220, -220)
+    turtle.goto(-220, -220)
+    turtle.goto(-220, 220)
     turtle.pu()
-    turtle.goto(0,0)
+    turtle.goto(0, 0)
 
-def start(x,y):
+
+def start(x, y):  # taking x and y only because we are making 2d snake game
     turtle.onscreenclick(None)
 
     level_1()
@@ -68,76 +70,84 @@ def start(x,y):
     tscore.hideturtle()
     tscore.pu()
     tscore.speed(0)
-    tscore.goto(100,-250)
-    tscore.write("Score:" + str(a[0]), align="center",font=(10))
-    
-    while x > -210 and x < 210 and y > -210 and y <210:
+    tscore.goto(100, -250)
+    tscore.write("Score:" + str(a[0]), align="center", font=(10))
+
+    while x in range(-210, 210) and y in range(-210, 210):
         if fcoord[2] == 0:
             food(tfood)
             fcoord[2] = 1
-        turtle.onkey(u,"Up")
-        turtle.onkey(l,"Left")
-        turtle.onkey(r,"Right")
-        turtle.onkey(d,"Down")
+        turtle.onkey(u, "Up")
+        turtle.onkey(l, "Left")
+        turtle.onkey(r, "Right")
+        turtle.onkey(d, "Down")
         turtle.listen()
         move()
         x = turtle.xcor()
-        y = turtle.ycor()        
-        if x > fcoord[0]*20-5 and x < fcoord[0]*20+5 and y > fcoord[1]*20-5 and y < fcoord[1]*20+5:
+        y = turtle.ycor()
+        if x in range(fcoord[0] * 20 - 5, fcoord[0] * 20 + 5) and y in range(fcoord[1] * 20 - 5, fcoord[1] * 20 + 5):
             fcoord[2] = 0
             tfood.clear()
             a[0] += 1
             tscore.clear()
-            tscore.write("Score:" + str(a[0]), align="center",font=(10))
-        
+            tscore.write("Score:" + str(a[0]), align="center", font = (10))
+
         if len(pos) > 1:
-            for i in range(1,len(pos)):
-                if x < pos[i][0]+5 and x > pos[i][0]-5 and y < pos[i][1]+5 and y > pos[i][1]-5:
-                        tscore.clear()
-                        tfood.clear()
-                        gameover()
+            for i in range(1, len(pos)):
+                if x in range(pos[i][0] + 5, pos[i][0] - 5) and y in range(pos[i][1] + 5, pos[i][1] - 5):
+                    tscore.clear()
+                    tfood.clear()
+                    gameover()
     tscore.clear()
     tfood.clear()
     gameover()
 
 
-#Food
+# Food
 def food(tfood):
-    x = random.randrange(-8,8,1)
-    y = random.randrange(-8,8,1)
+    x = random.randrange(-8, 8, 1)
+    y = random.randrange(-8, 8, 1)
     fcoord[0] = x
     fcoord[1] = y
     tfood.hideturtle()
     tfood.pu()
     tfood.shape("square")
     tfood.color("red")
-    tfood.goto(x*20,y*20)
+    tfood.goto(x * 20, y * 20)
     tfood.stamp()
 
-#Up   
+
+# Up
 def u():
     if h[0] == 270:
         pass
     else:
         h[0] = 90
-#Down
+
+
+# Down
 def d():
     if h[0] == 90:
         pass
     else:
         h[0] = 270
-#Left
+
+
+# Left
 def l():
     if h[0] == 0:
         pass
     else:
         h[0] = 180
-#Right
+
+
+# Right
 def r():
     if h[0] == 180:
         pass
     else:
         h[0] = 0
+
 
 def move():
     turtle.pensize(1)
@@ -150,31 +160,32 @@ def move():
     turtle.fd(20)
     x = turtle.xcor()
     y = turtle.ycor()
-    if b[0] > a[0]:     
+    if b[0] > a[0]:
         turtle.clearstamps(1)
-        pos.insert(0,[round(x),round(y)])
+        pos.insert(0, [round(x), round(y)])
         pos.pop(-1)
     else:
-        pos.insert(0,[round(x),round(y)])       
-        b[0] += 1    
-    
+        pos.insert(0, [round(x), round(y)])
+        b[0] += 1
+
+
 def gameover():
     turtle.onscreenclick(None)
     turtle.speed(0)
     turtle.pu()
-    turtle.goto(0,150)
+    turtle.goto(0, 150)
     turtle.color("red")
-    turtle.write("Game Over",align="center", font=(10))
-    turtle.goto(0,50)
-    turtle.write("Score:" + str(a[0]),align="center",font=(10))
-    turtle.goto(200,-200)
-    turtle.write("(Click anywhere to return to the main menu)",align="right",font=(0.0000001))
+    turtle.write("Game Over", align="center", font=(10))
+    turtle.goto(0, 50)
+    turtle.write("Score:" + str(a[0]), align="center", font=(10))
+    turtle.goto(200, -200)
+    turtle.write("(Click anywhere to return to the main menu)", align="right", font=(0.0000001))
     turtle.onscreenclick(home)
     turtle.mainloop()
-    
-        
+
+
 # # # # # # # # # # # # # # # # # # # # # #
 # Main                                    #
 # # # # # # # # # # # # # # # # # # # # # #
 if __name__ == '__main__':
-    home(0,0)
+    home(0, 0)
