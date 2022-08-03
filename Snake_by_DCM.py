@@ -2,8 +2,19 @@
 #                        Dinis Marques                            #
 #                         Snake Python                            #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+import time
 import turtle
 import random
+
+#font details
+fontName = "Arial"
+fontSize = 25
+secondaryFontSize = 14
+
+#Game details
+snakeColor = "green" 
+foodColor = "red"
+fps = 60 # T = 1/30
 
 #head orientation
 h = [0]
@@ -31,8 +42,8 @@ def home(x,y):
     turtle.clear()
     turtle.pu()
     turtle.color("black")
-    turtle.goto(0,0)
-    turtle.write("Play")
+    turtle.goto(-fontSize,0)
+    turtle.write("Play",font=(fontName,fontSize))
     turtle.title("Snake")
     turtle.onscreenclick(start)
     turtle.mainloop()
@@ -62,25 +73,28 @@ def start(x,y):
     tfood.pu()
     tfood.speed(0)
     tfood.shape("square")
-    tfood.color("red")
+    tfood.color(foodColor)
 
     tscore = turtle.Turtle()
     tscore.hideturtle()
     tscore.pu()
     tscore.speed(0)
     tscore.goto(100,-250)
-    tscore.write("Score:" + str(a[0]), align="center",font=(10))
+    tscore.write("Score:" + str(a[0]), align="center",font=(fontName,secondaryFontSize))
     
+    # Events
+    turtle.onkey(u,"Up")
+    turtle.onkey(l,"Left")
+    turtle.onkey(r,"Right")
+    turtle.onkey(d,"Down")
+    turtle.listen()
+
     while x > -210 and x < 210 and y > -210 and y <210:
+        time.sleep(1/fps)
+        move()
         if fcoord[2] == 0:
             food(tfood)
             fcoord[2] = 1
-        turtle.onkey(u,"Up")
-        turtle.onkey(l,"Left")
-        turtle.onkey(r,"Right")
-        turtle.onkey(d,"Down")
-        turtle.listen()
-        move()
         x = turtle.xcor()
         y = turtle.ycor()        
         if x > fcoord[0]*20-5 and x < fcoord[0]*20+5 and y > fcoord[1]*20-5 and y < fcoord[1]*20+5:
@@ -88,7 +102,7 @@ def start(x,y):
             tfood.clear()
             a[0] += 1
             tscore.clear()
-            tscore.write("Score:" + str(a[0]), align="center",font=(10))
+            tscore.write("Score:" + str(a[0]), align="center",font=(fontName,secondaryFontSize))
         
         if len(pos) > 1:
             for i in range(1,len(pos)):
@@ -96,6 +110,7 @@ def start(x,y):
                         tscore.clear()
                         tfood.clear()
                         gameover()
+        
     tscore.clear()
     tfood.clear()
     gameover()
@@ -141,9 +156,9 @@ def r():
 
 def move():
     turtle.pensize(1)
-    turtle.color("black")
+    turtle.color(snakeColor)
     turtle.pu()
-    turtle.speed(3)
+    turtle.speed()
     turtle.setheading(h[0])
     turtle.shape("square")
     turtle.stamp()
@@ -164,11 +179,11 @@ def gameover():
     turtle.pu()
     turtle.goto(0,150)
     turtle.color("red")
-    turtle.write("Game Over",align="center", font=(10))
+    turtle.write("Game Over",align="center", font=(fontName,secondaryFontSize))
     turtle.goto(0,50)
-    turtle.write("Score:" + str(a[0]),align="center",font=(10))
-    turtle.goto(200,-200)
-    turtle.write("(Click anywhere to return to the main menu)",align="right",font=(0.0000001))
+    turtle.write("Score:" + str(a[0]),align="center",font=(fontName,secondaryFontSize))
+    turtle.goto(0,-280)
+    turtle.write("(Click anywhere to return to the main menu)",align="center",font=(fontName,secondaryFontSize))
     turtle.onscreenclick(home)
     turtle.mainloop()
     
