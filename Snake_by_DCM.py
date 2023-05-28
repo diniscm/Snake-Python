@@ -2,6 +2,7 @@
 #                        Dinis Marques                            #
 #                         Snake Python                            #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# this ia a question on how to make this game faster
 import turtle
 import random
 
