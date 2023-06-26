@@ -75,10 +75,10 @@ def start(x,y):
         if fcoord[2] == 0:
             food(tfood)
             fcoord[2] = 1
-        turtle.onkey(u,"Up")
-        turtle.onkey(l,"Left")
-        turtle.onkey(r,"Right")
-        turtle.onkey(d,"Down")
+        turtle.onkey(u,"W")
+        turtle.onkey(l,"A")
+        turtle.onkey(r,"D")
+        turtle.onkey(d,"S")
         turtle.listen()
         move()
         x = turtle.xcor()
